@@ -5,6 +5,7 @@ import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class MainWindow(gtk.Window):
+
     def __init__(self):
         super(MainWindow, self).__init__()
  #       window = gtk.Window()
@@ -52,40 +53,55 @@ class MainWindow(gtk.Window):
         titleBarBox.pack_end(miniBtn, expand = False, fill = False, padding = 0)
         titleBarBox.pack_end(userLabel, expand = False, fill = False, padding = 0)
 
-#        titleBarAlign = gtk.Alignment(0, 0, 1, 0)
- #       titleBarAlign.add(titleBarBox)
+        #titleBarAlign = gtk.Alignment(0, 0, 1, 0)
+        #titleBarAlign.add(titleBarBox)
+        toolBarBox.pack_start(homeBtn, expand = False, fill = False, padding = 0)
+        toolBarBox.pack_start(stateBtn, expand = False, fill = False, padding = 0)
+        toolBarBox.pack_start(softmanagerBtn, expand = False, fill = False, padding = 0)
+        toolBarBox.pack_start(auditBtn, expand = False, fill = False, padding = 0)
+        toolBarBox.pack_start(sysinfoBtn, expand = False, fill = False, padding = 0)
 
-        toolBarBox.add(homeBtn)
-        toolBarBox.add(stateBtn)
-        toolBarBox.add(softmanagerBtn)
-        toolBarBox.add(auditBtn)
-        toolBarBox.add(sysinfoBtn)
+        #toolBarAlign = gtk.Alignment(0, 0, 1, 0)
+        #toolBarAlign.add(toolBarBox)
+        homeBtn.connect('clicked', self.homeBtnClicked)
 
-#       toolBarAlign = gtk.Alignment(0, 0, 1, 0)
-#       toolBarAlign.add(toolBarBox)
-
-        barVBox = gtk.VBox()
-#        barVBox.add(titleBarBox)
-#        barVBox.add(toolBarBox)
-
+        barBox = gtk.VBox()
+        barBox.pack_start(titleBarBox)
+        barBox.pack_start(toolBarBox)
         barAlign = gtk.Alignment(0, 0, 1, 0)
-#        barAlign.add(barVBox)
-      #  homeFixed = gtk.Fixed()
-      #  homeFixed.set_size_request(600, 300);
-        wview = webkit.WebView()
-        #wview.load_uri('https://www.baidu.com')
-        wview.open('/home/ymc/test/pygtktest/html/rose_chart.html')
+        barAlign.add(barBox)
 
+
+
+        self.centerBox = gtk.HBox()
+        self.box1 = gtk.HBox()
+        self.box2 = gtk.HBox()
+
+        wview1 = webkit.WebView()
+
+        #wview.load_uri('https://www.baidu.com')
+        wview1.open('/home/ymc/test/pygtktest/html/rose_chart.html')
+
+        self.box1.add(wview1)
+        self.centerBox.add(self.box1)
+#        homeFixed.put(wview, 0, 100)
 #        mainBox.add(barAlign)
 #        mainBox.pack_start(toolBarBox)
 #        mainBox.pack_end(wview)
 
-        mainBox.add(titleBarBox)
-        mainBox.add(toolBarBox)
-        mainBox.add(wview)
+        mainBox.add(barAlign)
+        mainBox.add(self.centerBox)
         
         self.add(mainBox)
         self.show_all()
+
+    def homeBtnClicked(self, homeBtn):
+        self.centerBox.remove(self.box1)
+        wview2 = webkit.WebView()
+        wview2.load_uri('https://www.baidu.com')
+        self.box2.add(wview2)
+        self.centerBox.add(self.box2)
+
 if __name__ == "__main__":
     MainWindow()
     gtk.main()
