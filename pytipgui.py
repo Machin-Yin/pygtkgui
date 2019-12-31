@@ -43,6 +43,14 @@ class MainWindow(gtk.Window):
         titleBarBox = gtk.HBox()
         toolBarBox = gtk.HBox()
 
+        titleEb = gtk.EventBox()
+        titleEb.add(titleBarBox)
+        titleEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
+
+        toolEb = gtk.EventBox()
+        toolEb.add(toolBarBox)
+        toolEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
+
         #tittlebar
         titlePixmapLabel = gtk.Label("Logo")
         titlePixmapLabel.set_size_request(32,32)
@@ -61,15 +69,22 @@ class MainWindow(gtk.Window):
 
         #toolbar
         homeBtn = gtk.Button("home")
-        homeBtn.set_size_request(64,64)
+        homeBtn.set_size_request(84,84)
         stateBtn = gtk.Button("state")
-        stateBtn.set_size_request(64,64)
+        stateBtn.set_size_request(84,84)
         softmanagerBtn = gtk.Button("softmanager")
-        softmanagerBtn.set_size_request(64,64)
+        softmanagerBtn.set_size_request(84,84)
         auditBtn = gtk.Button("audit")
-        auditBtn.set_size_request(64,64)
+        auditBtn.set_size_request(84,84)
         sysinfoBtn = gtk.Button("sysinfo")
-        sysinfoBtn.set_size_request(64,64)
+        sysinfoBtn.set_size_request(84,84)
+        #set button background
+        homeBtn.set_relief(gtk.RELIEF_NONE)  #transparency
+
+        stateBtn.set_relief(gtk.RELIEF_NONE)
+        softmanagerBtn.set_relief(gtk.RELIEF_NONE)
+        auditBtn.set_relief(gtk.RELIEF_NONE)
+        sysinfoBtn.set_relief(gtk.RELIEF_NONE)
        
         titleBarBox.pack_start(titlePixmapLabel, expand = False, fill = False, padding = 0)
         titleBarBox.pack_start(titleLabel, expand = False, fill = False, padding = 0)
@@ -105,8 +120,10 @@ class MainWindow(gtk.Window):
         
 
         barBox = gtk.VBox()
-        barBox.pack_start(titleBarBox)
-        barBox.pack_start(toolBarBox)
+        #barBox.pack_start(titleBarBox)
+        #barBox.pack_start(toolBarBox)
+        barBox.pack_start(titleEb)
+        barBox.pack_start(toolEb)
         barAlign = gtk.Alignment(0, 0, 1, 0)
         barAlign.add(barBox)
 
@@ -116,7 +133,7 @@ class MainWindow(gtk.Window):
 
         self.notebook = gtk.Notebook()
         self.notebook.set_show_tabs(False)
-        self.notebook.set_size_request(900,600 - 32 - 64)
+        self.notebook.set_size_request(900,600 - 32 - 84)
 
         #book1
         wview1 = webkit.WebView()
