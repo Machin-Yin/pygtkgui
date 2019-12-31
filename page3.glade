@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glade-interface>
+  <!-- interface-requires gtk+ 2.24 -->
+  <!-- interface-naming-policy project-wide -->
+  <widget class="GtkFixed" id="page3box">
+    <property name="width_request">900</property>
+    <property name="height_request">31</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="extension_events">all</property>
+    <child>
+      <widget class="GtkLabel" id="q7label">
+        <property name="width_request">80</property>
+        <property name="height_request">30</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">q7signed</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkEntry" id="entry1">
+        <property name="width_request">150</property>
+        <property name="height_request">30</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">●</property>
+        <property name="invisible_char_set">True</property>
+        <property name="primary_icon_activatable">False</property>
+        <property name="secondary_icon_activatable">False</property>
+        <property name="primary_icon_sensitive">True</property>
+        <property name="secondary_icon_sensitive">True</property>
+      </widget>
+      <packing>
+        <property name="x">495</property>
+      </packing>
+    </child>
+    <child>
+      <widget class="GtkButton" id="searchBtn">
+        <property name="label" translatable="yes">search</property>
+        <property name="width_request">75</property>
+        <property name="height_request">30</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="yalign">0.47999998927116394</property>
+        <signal name="clicked" handler="on_searchBtn_clicked" swapped="no"/>
+      </widget>
+      <packing>
+        <property name="x">652</property>
+      </packing>
+    </child>
+    <child>
+      <widget class="GtkButton" id="addBtn">
+        <property name="label" translatable="yes">add</property>
+        <property name="width_request">75</property>
+        <property name="height_request">30</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </widget>
+      <packing>
+        <property name="x">733</property>
+      </packing>
+    </child>
+    <child>
+      <widget class="GtkButton" id="deleteBtn">
+        <property name="label" translatable="yes">del</property>
+        <property name="width_request">75</property>
+        <property name="height_request">30</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="yalign">0.51999998092651367</property>
+        <signal name="clicked" handler="on_deleteBtn_clicked" swapped="no"/>
+      </widget>
+      <packing>
+        <property name="x">811</property>
+      </packing>
+    </child>
+  </widget>
+</glade-interface>
