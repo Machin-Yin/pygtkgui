@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <script src="../plots/jquery.min.js"></script>
+    <script src="../plots/charts.min.js"></script>
+</head>
+<body>
+    <div id="MainChart" style="width:660px;height:420px;margin: 0 auto;"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('MainChart'));
+        var option = {
+            calculable : true,
+            backgroundColor: '#FFFFFF',
+            title : {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    //alert(JSON.stringify(params));
+                    return  params.seriesName + "<br/>" + params.data.name + ": " + params.data.spares;
+                },
+            },
+            series: [
+            {
+                name:'安全配置管理',
+                type:'pie',
+                radius: ['58%', '73%'],
+                center: ['48%', '52%'],
+                color:['#FFA846', '#20A8D8'],
+                label: {
+                    normal: {
+                        position: 'inside',
+                        fontSize: 13,
+                        color: '',
+                        fontFamily: 'Courier'
+                    }
+                },
+                data:[
+                    { name:'已安装', value:3, spares: 0 },
+                    { name:'未安装', value:2, spares: 0 }
+                ]
+            },
+            {
+                name:'安全配置管理',
+                type:'pie',
+                radius: ['0%', '57%'],
+                center : ['48%', '52%'],
+                color:['#F8D533', '#8DCE4C', '#52BFFF', '#99E5FD', '#FD5933'],
+                data:[
+                    { name:'已安装应用软件包', value:1, spares: 0 },
+                    { name:'已安装安全应用软件包',value:1, spares: 0 },
+                    { name:'系统自带软件包', value:1, spares: 0 },
+                    { name:'未安装的软件包', value:1, spares: 0 },
+                    { name:'安装失败的软件包', value:1, spares: 0 }
+                 ],
+                itemStyle: {
+                    normal:{
+                        label:{
+                            show:true,
+                            textStyle:{
+                                fontSize:14,
+                                color:'',
+                                fontWeight:'800'
+                            }
+                        },
+                        labelLine: {
+                            show:true,
+                            length:60,
+                            lineStyle: {
+                                width:2
+                            }
+                        }
+                    },
+                    emphasis: {
+                        shadowBlur: 5,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.9)'
+                    }
+                },
+            }
+            ]
+        };
+        myChart.setOption(option);
+        function CallJsFunc(strJson)
+        {   /** 已安装,未安装,已安装应用软件包,已安装安全应用软件包,系统自带软件包,未安装的软件包,安装失败的软件包 **/
+            var obj = $.parseJSON(strJson);
+            option.series[0].data[0].spares = obj.value[0];
+            option.series[0].data[1].spares = obj.value[4] + obj.value[5];
+            option.series[1].data[0].spares = obj.value[3];
+            option.series[1].data[1].spares = obj.value[2];
+            option.series[1].data[2].spares = obj.value[1];
+            option.series[1].data[3].spares = obj.value[4];
+            option.series[1].data[4].spares = obj.value[5];
+            myChart.setOption(option);
+        }
+    </script>
+</body>
+</html>

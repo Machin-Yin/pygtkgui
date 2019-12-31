@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <div id="main" style="width:660px;height:436px"></div>
+    <script src="../plots/jquery.min.js"></script>
+    <script src="../plots/charts.min.js"></script>
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                show : true,
+                trigger: 'axis',
+                formatter:function (params){
+                    var res = '时间 : ' + params[0].name +'<br/>';
+                    for (var i = 0, l = params.length; i < l; i++) {
+                        res += '<br/>' + params[i].seriesName + ' : ' + params[i].value;
+                    }
+                    return res;
+                }
+            },
+            calculable : false,
+            legend:{
+                data: ['审计信息总条数', '管理员操作条数', '软件类条数', '策略类条数', '证书类条数', '其它类条数'],
+                icon: 'rect',
+                //top: 5,
+                //right: 25,
+                itemGap: 15,
+                itemWidth: 10,
+                itemHeight: 10,
+                textStyle: {
+                    color: '#505050'
+                }
+            },
+            grid: {
+                left: 40,
+                right: 48,
+                bottom: 2,
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                name: '时间(月)',
+                nameGap: 5,
+                nameTextStyle: {
+                    padding: [25, 0, 0, 0],
+                    color: '#505050'
+                },
+                axisLabel:{
+                    interval : 0,
+                    rotate : 45,
+                },
+            },
+            yAxis: {
+                type: 'value',
+                name: '数量(条)',
+                nameTextStyle: {
+                    padding: [0, 25, 0, 0],
+                    color: '#505050'
+                }
+            },
+            color: ['#20A9D5', '#FE6C6D', '#34AFFF', '#7EC14D', '#F7C901', '#5DC7DD'],
+            series: [
+                {
+                    name:'审计信息总条数',
+                    type:'line',
+                    symbol:'circle',
+                    smooth: true,
+                    symbolSize:1,
+                    areaStyle: {//填充区域样式
+                      normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: "#20A9D5" },
+                          { offset: 0.25, color: "#2AB3DF" },
+                          { offset: 0.5, color: "#34BDE9" },
+                          { offset: 0.75, color: "#3EC7F3" },
+                          { offset: 1, color: "#48D1FD" },
+                        ])
+                      }
+                    },
+                    data:[]
+                },
+                {
+                    name: '管理员操作条数',
+                    type: 'line',
+                    symbol:'circle',
+                    smooth: true,
+                    symbolSize:1,
+                    itemStyle: {
+                        normal: {
+                            //color: '#0bb6db',
+                            borderColor: '#0bb6db',
+                        }
+                    },
+                    data:[]
+                },
+                {
+                    name: '软件类条数',
+                    type: 'line',
+                    symbol:'circle',
+                    smooth: true,
+                    symbolSize:1,
+                    itemStyle: {
+                        normal: {
+                            //color: '#fbc016',
+                            borderColor: '#fbc016',
+                        }
+                    },
+                    data:[]
+                },
+                {
+                    name: '策略类条数',
+                    type: 'line',
+                    symbol:'circle',
+                    smooth: true,
+                    symbolSize:1,
+                    itemStyle: {
+                        normal: {
+                            //color: '#fbc016',
+                            borderColor: '#fbc016',
+                        }
+                    },
+                    data:[]
+                },
+                {
+                    name: '证书类条数',
+                    type: 'line',
+                    symbol:'circle',
+                    smooth: true,
+                    symbolSize:1,
+                    itemStyle: {
+                        normal: {
+                            //color: '#ff5050',
+                            borderColor: '#ff5050',
+                        }
+                    },
+                    data:[]
+                },
+                {
+                    name: '其它类条数',
+                    type: 'line',
+                    symbol:'circle',
+                    smooth: true,
+                    symbolSize:1,
+                    itemStyle: {
+                        normal: {
+                           // color: '#0bb6db', // 折线条的颜色
+                            borderColor: '#0bb6db',
+                        }
+                    },
+                    data:[]
+                }
+            ]
+        };
+        window.onresize = myChart.resize;
+        myChart.setOption(option);
+        function CallJsFunc(strJson)
+        {
+            var obj = $.parseJSON(strJson);
+            option.title.text = obj.title;
+            option.xAxis.data = getMonthXAsis();
+            option.series[0].data =  obj.value1;
+            option.series[1].data =  obj.value2;
+            option.series[2].data =  obj.value3;
+            option.series[3].data =  obj.value4;
+            option.series[4].data =  obj.value5;
+            option.series[5].data =  obj.value6;
+            myChart.setOption(option);
+        }
+        function getMonthXAsis()
+        {
+            var xasis = [];
+            var data = new Date();
+            var year = data.getFullYear();
+            data.setMonth(data.getMonth() + 1, 1)//获取到当前月份,设置月份
+            for (var i = 0; i < 12; i++) {
+                data.setMonth(data.getMonth() - 1);//每次循环一次 月份值减1
+                var m = data.getMonth() + 1;
+                m = m < 10 ? "0" + m : m;
+                xasis[i] = data.getFullYear() + "-" + (m);
+            }
+            return xasis;
+        }
+    </script>
+</body>

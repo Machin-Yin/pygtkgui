@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <script src="../plots/jquery.min.js"></script>
+    <script src="../plots/charts.min.js"></script>
+</head>
+<body>
+    <div id="MainChart" style="width: 660px;height:420px;"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('MainChart'));
+        var option = {
+            backgroundColor:'#FFFFFF',
+            color:['rgba(251,206,15,.8)','rgba(255,138,74,.8)','rgba(91,176,240,.8)','rgba(182,162,223,.8)','rgba(46,200,202,.8)'],
+            calculable:true,
+            title : {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return  params.seriesName + "<br/>" + params.data.name + ": " + params.data.spares;
+                },
+            },
+            series: [
+                {
+                    name:'安全配置管理',
+                    type:'pie',
+                    radius:['14%', '80%'],
+                    center:['48%', '50%'],
+                    roseType:true,
+                    data: [
+                        { value: 37, name: '他签文件', spares: 0},
+                        { value: 19, name: '安全基线策略包', spares: 0 },
+                        { value: 28, name: '关键文件', spares: 0 },
+                        { value: 31, name: '审计信息', spares: 0 },
+                        { value: 34, name: '自签文件', spares: 0 }
+                    ],
+                    itemStyle: {
+                        normal:{
+                            label:{
+                                show:true,
+                                textStyle:{
+                                    fontSize:14,
+                                    fontWeight:'800'
+                                }
+                            },
+                            labelLine: {
+                                show:true,
+                                length:40,
+                                lineStyle: {
+                                    width:2
+                                }
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                },
+                // 边框的设置
+                {
+                    radius: ['8.5%', '8.7%'],
+                    center: ['48%', '50%'],
+                    type: 'pie',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    animation: false,
+                    tooltip: {
+                        show: false
+                    },
+                    data: [{
+                        value: 1,
+                        itemStyle: {
+                            color: "#D4D4D4"
+                        }
+                    }]
+                }
+            ],
+            visualMap: {
+                show: false,
+                min: 80,
+                max: 600,
+                inRange: {
+                    //colorLightness: [0, 1]
+                }
+            }
+        };
+        myChart.setOption(option);
+        function CallJsFunc(strJson)
+        {
+            var obj = $.parseJSON(strJson);
+            option.series[0].data[0].spares = obj.value[5];
+            option.series[0].data[1].spares = obj.value[0];
+            option.series[0].data[2].spares = obj.value[2];
+            option.series[0].data[3].spares = obj.value[3];
+            option.series[0].data[4].spares = obj.value[4];
+            myChart.setOption(option);
+        }
+    </script>
+</body>
+</html>
