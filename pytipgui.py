@@ -1,36 +1,96 @@
+#coding=utf-8
 import gtk
 import gtk.glade
 import webkit
 
+class SettingWidget(gtk.Window):
+    def __init__(self):
+        super(SettingWidget, self).__init__()
+        self.set_default_size(136, 233)
+        self.set_position(gtk.WIN_POS_MOUSE)
+        menu = gtk.Menu()
+        regist = gtk.MenuItem("软件注册")
+        mode = gtk.MenuItem("模式设置")
+        upgrade = gtk.MenuItem("版本升级")
+        doc = gtk.MenuItem("操作手册")
+        about = gtk.MenuItem("关于我们")
+
+        menu.append(regist)
+        menu.append(mode)
+        menu.append(upgrade)
+        menu.append(doc)
+        menu.append(about)
+
+
+        vbox = gtk.VBox()
+        vbox.pack_start(menu, False, False, 0)
+        self.add(vbox)
+
+
 class Page3Widget:
 
-        def __init__(self):
-            self.wTree = gtk.glade.XML("page3.glade")
-            self.wid = self.wTree.get_widget("page3box")
-            dic = {"on_searchBtn_clicked" : self.page3_searchBtn_clicked,
-                    "on_addBtn_clicked" : self.page3_addBtn_clicked,
-                    "on_deleteBtn_clicked" : self.page3_deleteBtn_clicked,
-                    "on_page3win_destroy" : self.destroy}
-            self.wTree.signal_autoconnect(dic)
+    def __init__(self):
+        self.wTree = gtk.glade.XML("page3.glade")
+        self.wid = self.wTree.get_widget("page3box")
+        dic = {"on_searchBtn_clicked" : self.page3_searchBtn_clicked,
+                "on_addBtn_clicked" : self.page3_addBtn_clicked,
+                "on_deleteBtn_clicked" : self.page3_deleteBtn_clicked,
+                "on_page3win_destroy" : self.destroy}
+        self.wTree.signal_autoconnect(dic)
           
-        #    self.window.show()
-        #    gtk.main()
+    #page3 slot    
+    def page3_searchBtn_clicked(self, widget):
+        print "page3_searchBtn_clicked"
 
-        #page3 slot    
-        def page3_searchBtn_clicked(self, widget):
-            print "page3_searchBtn_clicked"
+    def page3_addBtn_clicked(self, widget):
+        print "page3_addBtn_clicked"
 
-        def page3_addBtn_clicked(self, widget):
-            print "page3_addBtn_clicked"
+    def page3_deleteBtn_clicked(self, widget):
+        print "page3_deleteBtn_clicked"
 
-        def page3_deleteBtn_clicked(self, widget):
-            print "page3_deleteBtn_clicked"
-
-        def destroy(self, widget):
-            gtk.main_quit()
-        #end page3 slot
+    def destroy(self, widget):
+        gtk.main_quit()
+    #end page3 slot
 
 class MainWindow(gtk.Window):
+    def create_menu(self):
+        menu = gtk.Menu()
+        menu.set_size_request(136,223)
+
+        regist = gtk.MenuItem("     软件注册")
+        regist.set_size_request(136,35)
+        mode = gtk.MenuItem("     模式设置")
+        mode.set_size_request(136,35)
+        upgrade = gtk.MenuItem("     版本升级")
+        upgrade.set_size_request(136,35)
+        doc = gtk.MenuItem("     操作手册")
+        doc.set_size_request(136,35)
+        about = gtk.MenuItem("     关于我们")
+        about.set_size_request(136,35)
+
+        sep1 = gtk.SeparatorMenuItem()
+        sep2 = gtk.SeparatorMenuItem()
+        sep3 = gtk.SeparatorMenuItem()
+        sep4 = gtk.SeparatorMenuItem()
+
+        menu.append(regist)
+        menu.append(sep1)
+        menu.append(mode)
+        menu.append(sep2)
+        menu.append(upgrade)
+        menu.append(sep3)
+        menu.append(doc)
+        menu.append(sep4)
+        menu.append(about)
+
+
+        regpix = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/logo.png")
+        regImage = gtk.Image()
+        regImage.set_from_pixbuf(regpix)
+        #regist.set_image(regImage)
+
+        menu.show_all()
+        menu.popup(None, None, None, 3, 0)
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -52,48 +112,109 @@ class MainWindow(gtk.Window):
         toolEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
 
         #tittlebar
-        titlePixmapLabel = gtk.Label("Logo")
-        titlePixmapLabel.set_size_request(32,32)
-        titleLabel = gtk.Label("safemanager")
-        titleLabel.set_size_request(100,32)
-        headPixmapLabel = gtk.Label("Head")
-        headPixmapLabel.set_size_request(32,32)
-        userLabel = gtk.Label("sysuser")
-        userLabel.set_size_request(100,32)
-        setBtn = gtk.Button("v")
+        titleLabel = gtk.Label()
+        titleLabel.set_size_request(90,32)
+        titleLabel.set_markup("<span foreground='white'>安全配置管理</span>")
+        userLabel = gtk.Label()
+        userLabel.set_size_request(80,32)
+        userLabel.set_markup("<span foreground='white'>系统管理员</span>")
+        setBtn = gtk.Button()
         setBtn.set_size_request(32,32)
-        miniBtn = gtk.Button("-")
-        miniBtn.set_size_request(32,32)
-        closeBtn = gtk.Button("X")
+        minBtn = gtk.Button()
+        minBtn.set_size_request(32,32)
+        closeBtn = gtk.Button()
         closeBtn.set_size_request(32,32)
+        #set button background
+        setBtn.set_relief(gtk.RELIEF_NONE)  #transparency
+        minBtn.set_relief(gtk.RELIEF_NONE)
+        closeBtn.set_relief(gtk.RELIEF_NONE)
+        #set tittlebar image
+        titlepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/logo.png")
+        titleImage = gtk.Image()
+        titleImage.set_from_pixbuf(titlepixbuf)
+        titleImageBox = gtk.VBox()
+        titleImageBox.pack_start(titleImage)
+
+        headpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_USER_TITLEBAR.gif")
+        headImage = gtk.Image()
+        headImage.set_from_pixbuf(headpixbuf)
+        headImageBox = gtk.VBox()
+        headImageBox.pack_start(headImage)
+
+        setpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_TITLEBAR.gif")
+        setImage = gtk.Image()
+        setImage.set_from_pixbuf(setpixbuf)
+        setBtn.add(setImage)
+
+        minpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_MIN_TITLEBAR.gif")
+        minImage = gtk.Image()
+        minImage.set_from_pixbuf(minpixbuf)
+        minBtn.add(minImage)
+
+        closepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_CLOSED_TITLEBAR.gif")
+        closeImage = gtk.Image()
+        closeImage.set_from_pixbuf(closepixbuf)
+        closeBtn.add(closeImage)
 
         #toolbar
-        homeBtn = gtk.Button("home")
+        homeBtn = gtk.Button()
         homeBtn.set_size_request(84,84)
-        stateBtn = gtk.Button("state")
+        stateBtn = gtk.Button()
         stateBtn.set_size_request(84,84)
-        softmanagerBtn = gtk.Button("softmanager")
+        softmanagerBtn = gtk.Button()
         softmanagerBtn.set_size_request(84,84)
-        auditBtn = gtk.Button("audit")
+        auditBtn = gtk.Button()
         auditBtn.set_size_request(84,84)
-        sysinfoBtn = gtk.Button("sysinfo")
+        sysinfoBtn = gtk.Button()
         sysinfoBtn.set_size_request(84,84)
         #set button background
         homeBtn.set_relief(gtk.RELIEF_NONE)  #transparency
-
         stateBtn.set_relief(gtk.RELIEF_NONE)
         softmanagerBtn.set_relief(gtk.RELIEF_NONE)
         auditBtn.set_relief(gtk.RELIEF_NONE)
         sysinfoBtn.set_relief(gtk.RELIEF_NONE)
-       
-        titleBarBox.pack_start(titlePixmapLabel, expand = False, fill = False, padding = 0)
+        #set toolbtn image
+        homepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_HOME_TOOLBAR.png")
+        homeImage = gtk.Image()
+        #homeImage.set_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_HOME_TOOLBAR.png")
+        homeImage.set_from_pixbuf(homepixbuf)
+        homeBtn.add(homeImage)
+
+        statepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_STATE_VIEW_TOOLNAR.png")
+        stateImage = gtk.Image()
+        stateImage.set_from_pixbuf(statepixbuf)
+        stateBtn.add(stateImage)
+
+        softmanagerpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_SOFT_MANAGER_TOOLBAR.png")
+        softmanagerImage = gtk.Image()
+        softmanagerImage.set_from_pixbuf(softmanagerpixbuf)
+        softmanagerBtn.add(softmanagerImage)
+
+        auditpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_AUDIT_INFO.png")
+        auditImage = gtk.Image()
+        auditImage.set_from_pixbuf(auditpixbuf)
+        auditBtn.add(auditImage)
+
+        sysinfopixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_BTN_SYSINFO.png")
+        sysinfoImage = gtk.Image()
+        sysinfoImage.set_from_pixbuf(sysinfopixbuf)
+        sysinfoBtn.add(sysinfoImage)
+        
+
+        titleBarBox.pack_start(gtk.Alignment(), False, False, 5)
+        titleBarBox.pack_start(titleImageBox, expand = False, fill = False, padding = 0)
         titleBarBox.pack_start(titleLabel, expand = False, fill = False, padding = 0)
         titleBarBox.pack_end(closeBtn, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(miniBtn, expand = False, fill = False, padding = 0)
+        titleBarBox.pack_end(minBtn, expand = False, fill = False, padding = 0)
         titleBarBox.pack_end(setBtn, expand = False, fill = False, padding = 0)
         titleBarBox.pack_end(userLabel, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(headPixmapLabel, expand = False, fill = False, padding = 0)
+        titleBarBox.pack_end(headImageBox, expand = False, fill = False, padding = 0)
 
+        setBtn.connect('clicked', self.setBtnClicked)
+        minBtn.connect('clicked',self.minBtnClicked)
+        closeBtn.connect('clicked', self.closeBtnClicked)
+
+        toolBarBox.pack_start(gtk.Alignment(), False, False, 20)
         toolBarBox.pack_start(homeBtn, expand = False, fill = False, padding = 0)
         toolBarBox.pack_start(stateBtn, expand = False, fill = False, padding = 0)
         toolBarBox.pack_start(softmanagerBtn, expand = False, fill = False, padding = 0)
@@ -137,7 +258,7 @@ class MainWindow(gtk.Window):
 
         #book1
         wview1 = webkit.WebView()
-        wview1.open('/home/ymc/test/pygtktest/html/rose_chart.html')
+        wview1.open('/home/ymc/test/pygtkgui/html/rose_chart.html')
         self.box1.add(wview1)
         self.notebook.append_page(self.box1)
 
@@ -182,11 +303,25 @@ class MainWindow(gtk.Window):
         self.add(mainBox)
         self.show_all()
 
+    #titlebar slots
+    def setBtnClicked(self, setBtn):
+        #settingWid = SettingWidget()
+        #settingWid.show_all()
+        self.create_menu()
+
+    def minBtnClicked(self, minBtn):
+        self.maximize()
+
+    def closeBtnClicked(self, closeBtn):
+        gtk.main_quit()
+
+
+    #toolbar slots
     def homeBtnClicked(self, homeBtn):
         self.notebook.set_current_page(0)
 
     def stateBtnClicked(self, stateBtn):
-        self.wview2.load_uri('https://www.baidu.com')
+        self.wview2.load_uri('https://developer.gnome.org/pygtk/stable/index.html')
         self.notebook.set_current_page(1)
 
     def softmanagerBtnClicked(self, softmanagerBtn):
@@ -197,31 +332,24 @@ class MainWindow(gtk.Window):
 
     def sysinfoBtnClicked(self, sysinfoBtn):
         self.notebook.set_current_page(4)
-    
+   
 
+
+'''
+    def create_menu(self):
+        menu = gtk.Menu()
+
+        register = gtk.MenuItem()
+        regbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/logo.png")
+        regimage = gtk.Image()
+        regimage.set_from_pixbuf(regbuf)
+        item.set_image(regimage)
+        menu.append(item)
+
+        menu.show_all()
+        menu_popup(None, None, 3, 0)
+'''
 if __name__ == "__main__":
     MainWindow()
     gtk.main()
 
-
-'''      
-        toolBarBox.pack_start(homeBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(stateBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(softmanagerBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(auditBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(sysinfoBtn, expand = False, fill = False, padding = 0)
-'''
-
-      #  homeFixed = gtk.Fixed()
-      #  homeFixed.set_size_request(600, 300);
-'''
-        self.wview = webkit.WebView()
-        #self.wview.load_uri('https://www.baidu.com')
-        #self.wview.open('/home/ymc/test/pygtktest/html/baidu.html')
-        self.wview.open('/home/ymc/test/pygtktest/html/rose_chart.html')
-
-        scrolled_window = gtk.ScrolledWindow()
-        scrolled_window.add(self.wview)
-        window.add(scrolled_window)
-'''
-#        self.connect('destroy', gtk.main_quit)
