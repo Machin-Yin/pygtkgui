@@ -3,6 +3,7 @@ import gtk
 import gtk.glade
 import webkit
 
+'''
 class SettingWidget(gtk.Window):
     def __init__(self):
         super(SettingWidget, self).__init__()
@@ -13,7 +14,8 @@ class SettingWidget(gtk.Window):
         mode = gtk.MenuItem("模式设置")
         upgrade = gtk.MenuItem("版本升级")
         doc = gtk.MenuItem("操作手册")
-        about = gtk.MenuItem("关于我们")
+        about = gtk.ImageMenuItem("关于我们")
+
 
         menu.append(regist)
         menu.append(mode)
@@ -25,7 +27,7 @@ class SettingWidget(gtk.Window):
         vbox = gtk.VBox()
         vbox.pack_start(menu, False, False, 0)
         self.add(vbox)
-
+'''
 
 class Page3Widget:
 
@@ -53,51 +55,11 @@ class Page3Widget:
     #end page3 slot
 
 class MainWindow(gtk.Window):
-    def create_menu(self):
-        menu = gtk.Menu()
-        menu.set_size_request(136,223)
 
-        regist = gtk.MenuItem("     软件注册")
-        regist.set_size_request(136,35)
-        mode = gtk.MenuItem("     模式设置")
-        mode.set_size_request(136,35)
-        upgrade = gtk.MenuItem("     版本升级")
-        upgrade.set_size_request(136,35)
-        doc = gtk.MenuItem("     操作手册")
-        doc.set_size_request(136,35)
-        about = gtk.MenuItem("     关于我们")
-        about.set_size_request(136,35)
-
-        sep1 = gtk.SeparatorMenuItem()
-        sep2 = gtk.SeparatorMenuItem()
-        sep3 = gtk.SeparatorMenuItem()
-        sep4 = gtk.SeparatorMenuItem()
-
-        menu.append(regist)
-        menu.append(sep1)
-        menu.append(mode)
-        menu.append(sep2)
-        menu.append(upgrade)
-        menu.append(sep3)
-        menu.append(doc)
-        menu.append(sep4)
-        menu.append(about)
-
-
-        regpix = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/logo.png")
-        regImage = gtk.Image()
-        regImage.set_from_pixbuf(regpix)
-        #regist.set_image(regImage)
-
-        menu.show_all()
-        menu.popup(None, None, None, 3, 0)
 
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.set_title('MainUI')
-        #self.set_keep_above(True)
-        self.set_resizable(False)
-        self.set_default_size(900, 600)
+        self.init_window()
 
         mainBox = gtk.VBox();
         titleBarBox = gtk.HBox()
@@ -219,7 +181,7 @@ class MainWindow(gtk.Window):
         toolBarBox.pack_start(stateBtn, expand = False, fill = False, padding = 0)
         toolBarBox.pack_start(softmanagerBtn, expand = False, fill = False, padding = 0)
         toolBarBox.pack_start(auditBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(sysinfoBtn, expand = False, fill = False, padding = 0)
+        #toolBarBox.pack_start(sysinfoBtn, expand = False, fill = False, padding = 0)
 
         homeBtn.connect('clicked', self.homeBtnClicked)
         stateBtn.connect('clicked',self.stateBtnClicked)
@@ -315,6 +277,57 @@ class MainWindow(gtk.Window):
     def closeBtnClicked(self, closeBtn):
         gtk.main_quit()
 
+    
+    def init_window(self):
+	self.set_keep_above(True)
+        self.set_modal(True)
+        self.set_decorated(False)
+        #self.set_title('MainUI')
+        self.set_resizable(False)
+        self.set_default_size(900, 600)
+
+        self.set_events(gtk.gdk.BUTTON_RELEASE_MASK | gtk.gdk.BUTTON_PRESS_MASK |
+                        gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.POINTER_MOTION_HINT_MASK)
+        self.connect('button-release-event', self.on_release) # 鼠标释放
+        self.connect('button-press-event', self.on_press) # 鼠标按下
+        self.connect('motion-notify-event', self.on_move) #鼠标移动
+ 
+        self.is_press = False
+        # 鼠标按下坐标
+        self.start_x = 0
+        self.start_y = 0
+        #窗口坐标
+        self.coordinate_x = 0
+        self.coordinate_y = 0
+
+    def run(self):
+        self.show_all()
+        gtk.main()
+ 
+    def on_press(self, widget, event):
+        # 获取窗口起始坐标
+        self.coordinate_x, self.coordinate_y = self.get_position()
+        # 鼠标按下时坐标
+        self.start_x = event.x
+        self.start_y = event.y
+        self.is_press = True
+ 
+    def on_release(self, widget, event):
+        self.is_press = False
+ 
+    def on_move(self, widget, event):
+        if self.is_press:
+            # 计算鼠标移动的距离（相对按下时的坐标）
+            x = event.x - self.start_x
+            y = event.y - self.start_y
+            # 更新窗口起始坐标
+            self.coordinate_x += x
+            self.coordinate_y += y
+            # 移动窗口
+            self.move(int(self.coordinate_x), int(self.coordinate_y))
+
+
+
 
     #toolbar slots
     def homeBtnClicked(self, homeBtn):
@@ -332,23 +345,71 @@ class MainWindow(gtk.Window):
 
     def sysinfoBtnClicked(self, sysinfoBtn):
         self.notebook.set_current_page(4)
-   
 
-
-'''
     def create_menu(self):
         menu = gtk.Menu()
+        menu.set_size_request(136,223)
 
-        register = gtk.MenuItem()
-        regbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/logo.png")
-        regimage = gtk.Image()
-        regimage.set_from_pixbuf(regbuf)
-        item.set_image(regimage)
-        menu.append(item)
+        registItem = gtk.ImageMenuItem("     软件注册")
+        registItem.set_size_request(136,35)
+        modeItem = gtk.ImageMenuItem("     模式设置")
+        modeItem.set_size_request(136,35)
+        upgradeItem = gtk.ImageMenuItem("     版本升级")
+        upgradeItem.set_size_request(136,35)
+        manualItem = gtk.ImageMenuItem("     操作手册")
+        manualItem.set_size_request(136,35)
+        aboutItem = gtk.ImageMenuItem("     关于我们")
+        aboutItem.set_size_request(136,35)
+
+        #add image
+        registPixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_REGISTER.png")
+        registImage = gtk.Image()
+        registImage.set_from_pixbuf(registPixbuf)
+        registItem.set_image(registImage)
+        registItem.set_always_show_image(True)
+        
+        modePixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_toolbar_peizhimianban.png")
+        modeImage = gtk.Image()
+        modeImage.set_from_pixbuf(modePixbuf)
+        modeItem.set_image(modeImage)
+        modeItem.set_always_show_image(True)
+
+        upgradePixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_UPGRADE.png")
+        upgradeImage = gtk.Image()
+        upgradeImage.set_from_pixbuf(upgradePixbuf)
+        upgradeItem.set_image(upgradeImage)
+        upgradeItem.set_always_show_image(True)
+
+        manualPixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_MANUAL.png")
+        manualImage = gtk.Image()
+        manualImage.set_from_pixbuf(manualPixbuf)
+        manualItem.set_image(manualImage)
+        manualItem.set_always_show_image(True)
+
+        aboutPixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_ABOUT.png")
+        aboutImage = gtk.Image()
+        aboutImage.set_from_pixbuf(aboutPixbuf)
+        aboutItem.set_image(aboutImage)
+        aboutItem.set_always_show_image(True)
+
+        sep1 = gtk.SeparatorMenuItem()
+        sep2 = gtk.SeparatorMenuItem()
+        sep3 = gtk.SeparatorMenuItem()
+        sep4 = gtk.SeparatorMenuItem()
+
+        menu.append(registItem)
+        menu.append(sep1)
+        menu.append(modeItem)
+        menu.append(sep2)
+        menu.append(upgradeItem)
+        menu.append(sep3)
+        menu.append(manualItem)
+        menu.append(sep4)
+        menu.append(aboutItem)
 
         menu.show_all()
-        menu_popup(None, None, 3, 0)
-'''
+        menu.popup(None, None, None, 3, 0)
+
 if __name__ == "__main__":
     MainWindow()
     gtk.main()
