@@ -2,32 +2,9 @@
 import gtk
 import gtk.glade
 import webkit
+import logging
+import logging.handlers
 
-'''
-class SettingWidget(gtk.Window):
-    def __init__(self):
-        super(SettingWidget, self).__init__()
-        self.set_default_size(136, 233)
-        self.set_position(gtk.WIN_POS_MOUSE)
-        menu = gtk.Menu()
-        regist = gtk.MenuItem("软件注册")
-        mode = gtk.MenuItem("模式设置")
-        upgrade = gtk.MenuItem("版本升级")
-        doc = gtk.MenuItem("操作手册")
-        about = gtk.ImageMenuItem("关于我们")
-
-
-        menu.append(regist)
-        menu.append(mode)
-        menu.append(upgrade)
-        menu.append(doc)
-        menu.append(about)
-
-
-        vbox = gtk.VBox()
-        vbox.pack_start(menu, False, False, 0)
-        self.add(vbox)
-'''
 
 class Page3Widget:
 
@@ -40,7 +17,6 @@ class Page3Widget:
                 "on_page3win_destroy" : self.destroy}
         self.wTree.signal_autoconnect(dic)
           
-    #page3 slot    
     def page3_searchBtn_clicked(self, widget):
         print "page3_searchBtn_clicked"
 
@@ -52,13 +28,14 @@ class Page3Widget:
 
     def destroy(self, widget):
         gtk.main_quit()
-    #end page3 slot
+
 
 class MainWindow(gtk.Window):
 
 
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.init_log()
         self.init_window()
 
         mainBox = gtk.VBox();
@@ -300,10 +277,6 @@ class MainWindow(gtk.Window):
         self.coordinate_x = 0
         self.coordinate_y = 0
 
-    def run(self):
-        self.show_all()
-        gtk.main()
- 
     def on_press(self, widget, event):
         # 获取窗口起始坐标
         self.coordinate_x, self.coordinate_y = self.get_position()
@@ -332,16 +305,20 @@ class MainWindow(gtk.Window):
     #toolbar slots
     def homeBtnClicked(self, homeBtn):
         self.notebook.set_current_page(0)
+        self.mylog.debug("home btn clicked")
 
     def stateBtnClicked(self, stateBtn):
         self.wview2.load_uri('https://developer.gnome.org/pygtk/stable/index.html')
         self.notebook.set_current_page(1)
+        self.mylog.info("state btn clicked")
 
     def softmanagerBtnClicked(self, softmanagerBtn):
         self.notebook.set_current_page(2)
+        self.mylog.warning("softmanager btn clicked")
 
     def auditBtnClicked(self, auditBtn):
         self.notebook.set_current_page(3)
+        self.mylog.error("audit btn clicked")
 
     def sysinfoBtnClicked(self, sysinfoBtn):
         self.notebook.set_current_page(4)
@@ -409,6 +386,16 @@ class MainWindow(gtk.Window):
 
         menu.show_all()
         menu.popup(None, None, None, 3, 0)
+
+    def init_log(self):
+        ''' NOTSET(0)、DEBUG(10)、INFO(20)、WARNING(30)、ERROR(40)、CRITICAL(50) '''
+        logging.basicConfig()
+        self.mylog = logging.getLogger('log_gui')
+        self.mylog.setLevel(logging.INFO)
+        handler = logging.handlers.RotatingFileHandler('logs/log_gui.log', maxBytes = 100*1024*1024, backupCount = 3)
+        self.mylog.addHandler(handler)
+
+
 
 if __name__ == "__main__":
     MainWindow()
