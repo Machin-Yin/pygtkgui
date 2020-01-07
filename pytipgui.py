@@ -389,10 +389,14 @@ class MainWindow(gtk.Window):
 
     def init_log(self):
         ''' NOTSET(0)、DEBUG(10)、INFO(20)、WARNING(30)、ERROR(40)、CRITICAL(50) '''
-        logging.basicConfig()
+        #logging.basicConfig()
         self.mylog = logging.getLogger('log_gui')
         self.mylog.setLevel(logging.INFO)
-        handler = logging.handlers.RotatingFileHandler('logs/log_gui.log', maxBytes = 100*1024*1024, backupCount = 3)
+        #fmt = '%(asctime)s - %(pathname)s[line: %(lineno)d] - %(levelname)s: %(message)s'
+        #format_str = logging.Formatter(fmt)
+        formatter = logging.Formatter("%(asctime)s %(pathname)s[line: %(lineno)d] %(levelname)s: %(message)s")
+        handler = logging.handlers.RotatingFileHandler('logs/log_gui.log', maxBytes = 100*1024*1024, backupCount = 3, encoding = 'utf-8')
+        handler.setFormatter(formatter)
         self.mylog.addHandler(handler)
 
 
