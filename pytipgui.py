@@ -29,44 +29,28 @@ class Page3Widget:
     def destroy(self, widget):
         gtk.main_quit()
 
-
-class MainWindow(gtk.Window):
-
-
+class TitleBarWidget:
     def __init__(self):
-        super(MainWindow, self).__init__()
-        self.init_log()
-        self.init_window()
+        self.titleBarBox = gtk.HBox()
 
-        mainBox = gtk.VBox();
-        titleBarBox = gtk.HBox()
-        toolBarBox = gtk.HBox()
-
-        titleEb = gtk.EventBox()
-        titleEb.add(titleBarBox)
-        titleEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
-
-        toolEb = gtk.EventBox()
-        toolEb.add(toolBarBox)
-        toolEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
-
-        #tittlebar
         titleLabel = gtk.Label()
         titleLabel.set_size_request(90,32)
         titleLabel.set_markup("<span foreground='white'>安全配置管理</span>")
         userLabel = gtk.Label()
         userLabel.set_size_request(80,32)
         userLabel.set_markup("<span foreground='white'>系统管理员</span>")
-        setBtn = gtk.Button()
-        setBtn.set_size_request(32,32)
-        minBtn = gtk.Button()
-        minBtn.set_size_request(32,32)
-        closeBtn = gtk.Button()
-        closeBtn.set_size_request(32,32)
+        self.setBtn = gtk.Button()
+        self.setBtn.set_size_request(32,32)
+        self.minBtn = gtk.Button()
+        self.minBtn.set_size_request(32,32)
+        self.closeBtn = gtk.Button()
+        self.closeBtn.set_size_request(32,32)
+
         #set button transparency
-        setBtn.set_relief(gtk.RELIEF_NONE)
-        minBtn.set_relief(gtk.RELIEF_NONE)
-        closeBtn.set_relief(gtk.RELIEF_NONE)
+        self.setBtn.set_relief(gtk.RELIEF_NONE)
+        self.minBtn.set_relief(gtk.RELIEF_NONE)
+        self.closeBtn.set_relief(gtk.RELIEF_NONE)
+
         #set tittlebar image
         titlepixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/logo.png")
         titleImage = gtk.Image()
@@ -83,132 +67,105 @@ class MainWindow(gtk.Window):
         setpixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_TITLEBAR.gif")
         setImage = gtk.Image()
         setImage.set_from_pixbuf(setpixbuf)
-        setBtn.add(setImage)
+        self.setBtn.add(setImage)
 
         minpixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_MIN_TITLEBAR.gif")
         minImage = gtk.Image()
         minImage.set_from_pixbuf(minpixbuf)
-        minBtn.add(minImage)
+        self.minBtn.add(minImage)
 
         closepixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_CLOSED_TITLEBAR.gif")
         closeImage = gtk.Image()
         closeImage.set_from_pixbuf(closepixbuf)
-        closeBtn.add(closeImage)
+        self.closeBtn.add(closeImage)
 
-        #toolbar
-        homeBtn = gtk.Button()
-        homeBtn.set_size_request(84,84)
-        stateBtn = gtk.Button()
-        stateBtn.set_size_request(84,84)
-        softmanagerBtn = gtk.Button()
-        softmanagerBtn.set_size_request(84,84)
-        auditBtn = gtk.Button()
-        auditBtn.set_size_request(84,84)
-        sysinfoBtn = gtk.Button()
-        sysinfoBtn.set_size_request(84,84)
+        self.titleBarBox.pack_start(gtk.Alignment(), False, False, 5)
+        self.titleBarBox.pack_start(titleImageBox, expand = False, fill = False, padding = 0)
+        self.titleBarBox.pack_start(titleLabel, expand = False, fill = False, padding = 0)
+        self.titleBarBox.pack_end(self.closeBtn, expand = False, fill = False, padding = 0)
+        self.titleBarBox.pack_end(self.minBtn, expand = False, fill = False, padding = 0)
+        self.titleBarBox.pack_end(self.setBtn, expand = False, fill = False, padding = 0)
+        self.titleBarBox.pack_end(userLabel, expand = False, fill = False, padding = 0)
+        self.titleBarBox.pack_end(headImageBox, expand = False, fill = False, padding = 0)
+
+class ToolBarWidget:
+    def __init__(self):
+        self.toolBarBox = gtk.HBox()
+
+        self.homeBtn = gtk.Button()
+        self.homeBtn.set_size_request(84,84)
+        self.stateBtn = gtk.Button()
+        self.stateBtn.set_size_request(84,84)
+        self.softmanagerBtn = gtk.Button()
+        self.softmanagerBtn.set_size_request(84,84)
+        self.auditBtn = gtk.Button()
+        self.auditBtn.set_size_request(84,84)
+        self.sysinfoBtn = gtk.Button()
+        self.sysinfoBtn.set_size_request(84,84)
         #set button transparency
-        homeBtn.set_relief(gtk.RELIEF_NONE)
-        stateBtn.set_relief(gtk.RELIEF_NONE)
-        softmanagerBtn.set_relief(gtk.RELIEF_NONE)
-        auditBtn.set_relief(gtk.RELIEF_NONE)
-        sysinfoBtn.set_relief(gtk.RELIEF_NONE)
+        self.homeBtn.set_relief(gtk.RELIEF_NONE)
+        self.stateBtn.set_relief(gtk.RELIEF_NONE)
+        self.softmanagerBtn.set_relief(gtk.RELIEF_NONE)
+        self.auditBtn.set_relief(gtk.RELIEF_NONE)
+        self.sysinfoBtn.set_relief(gtk.RELIEF_NONE)
         #set toolbtn image
         homepixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_HOME_TOOLBAR.png")
         homeImage = gtk.Image()
         #homeImage.set_from_file("resource/toolbar/ID_HOME_TOOLBAR.png")
         homeImage.set_from_pixbuf(homepixbuf)
-        homeBtn.add(homeImage)
+        self.homeBtn.add(homeImage)
 
         statepixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_STATE_VIEW_TOOLNAR.png")
         stateImage = gtk.Image()
         stateImage.set_from_pixbuf(statepixbuf)
-        stateBtn.add(stateImage)
+        self.stateBtn.add(stateImage)
 
         softmanagerpixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_SOFT_MANAGER_TOOLBAR.png")
         softmanagerImage = gtk.Image()
         softmanagerImage.set_from_pixbuf(softmanagerpixbuf)
-        softmanagerBtn.add(softmanagerImage)
+        self.softmanagerBtn.add(softmanagerImage)
 
         auditpixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_AUDIT_INFO.png")
         auditImage = gtk.Image()
         auditImage.set_from_pixbuf(auditpixbuf)
-        auditBtn.add(auditImage)
+        self.auditBtn.add(auditImage)
 
         sysinfopixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_BTN_SYSINFO.png")
         sysinfoImage = gtk.Image()
         sysinfoImage.set_from_pixbuf(sysinfopixbuf)
-        sysinfoBtn.add(sysinfoImage)
-        
+        self.sysinfoBtn.add(sysinfoImage)
 
-        titleBarBox.pack_start(gtk.Alignment(), False, False, 5)
-        titleBarBox.pack_start(titleImageBox, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_start(titleLabel, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(closeBtn, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(minBtn, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(setBtn, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(userLabel, expand = False, fill = False, padding = 0)
-        titleBarBox.pack_end(headImageBox, expand = False, fill = False, padding = 0)
-
-        setBtn.connect('clicked', self.setBtnClicked)
-        minBtn.connect('clicked',self.minBtnClicked)
-        closeBtn.connect('clicked', self.closeBtnClicked)
-
-        toolBarBox.pack_start(gtk.Alignment(), False, False, 20)
-        toolBarBox.pack_start(homeBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(stateBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(softmanagerBtn, expand = False, fill = False, padding = 0)
-        toolBarBox.pack_start(auditBtn, expand = False, fill = False, padding = 0)
+        self.toolBarBox.pack_start(gtk.Alignment(), False, False, 20)
+        self.toolBarBox.pack_start(self.homeBtn, expand = False, fill = False, padding = 0)
+        self.toolBarBox.pack_start(self.stateBtn, expand = False, fill = False, padding = 0)
+        self.toolBarBox.pack_start(self.softmanagerBtn, expand = False, fill = False, padding = 0)
+        self.toolBarBox.pack_start(self.auditBtn, expand = False, fill = False, padding = 0)
         #toolBarBox.pack_start(sysinfoBtn, expand = False, fill = False, padding = 0)
 
-        homeBtn.connect('clicked', self.homeBtnClicked)
-        stateBtn.connect('clicked',self.stateBtnClicked)
-        softmanagerBtn.connect('clicked', self.softmanagerBtnClicked)
-        auditBtn.connect('clicked', self.auditBtnClicked)
-        sysinfoBtn.connect('clicked', self.sysinfoBtnClicked)
-
-        '''
-        #book3
-        self.page3gladefile = "page3.glade"
-        self.page3tree = gtk.glade.XML(self.page3gladefile)
-        self.wid = self.page3tree.get_widget("page3win")
-        dic = {"on_searchBtn_clicked" : self.page3_searchBtn_clicked,
-                "on_addBtn_clicked" : self.page3_addBtn_clicked,
-                "on_deleteBtn_clicked" : self.page3_deleteBtn_clicked,                
-                }
-        self.page3tree.signal_autoconnect(dic)
-        '''
-        
-
-        barBox = gtk.VBox()
-        #barBox.pack_start(titleBarBox)
-        #barBox.pack_start(toolBarBox)
-        barBox.pack_start(titleEb)
-        barBox.pack_start(toolEb)
-        barAlign = gtk.Alignment(0, 0, 1, 0)
-        barAlign.add(barBox)
-
-        self.box1 = gtk.HBox()
-        self.box2 = gtk.HBox()
-        self.box3 = gtk.VBox()
-
+class NotebookWidget:
+    def __init__(self):
         self.notebook = gtk.Notebook()
         self.notebook.set_show_tabs(False)
         self.notebook.set_size_request(900,600 - 32 - 84)
 
+        box1 = gtk.HBox()
+        box2 = gtk.HBox()
+        box3 = gtk.VBox()
+
         #book1
         wview1 = webkit.WebView()
         wview1.open('/home/ymc/test/pygtkgui/html/rose_chart.html')
-        self.box1.add(wview1)
-        self.notebook.append_page(self.box1)
+        box1.add(wview1)
+        self.notebook.append_page(box1)
 
         #book2
         self.wview2 = webkit.WebView()
         sw = gtk.ScrolledWindow()
         sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         sw.add_with_viewport(self.wview2)
-        self.box2.add(sw)
-        self.notebook.append_page(self.box2)
-        
+        box2.add(sw)
+        self.notebook.append_page(box2)
+
         '''
         #book3
         self.page3gladefile = "page3.glade"
@@ -216,7 +173,7 @@ class MainWindow(gtk.Window):
         self.wid = self.page3tree.get_widget("page3win")
         dic = {"on_searchBtn_clicked" : self.page3_searchBtn_clicked,
                 "on_addBtn_clicked" : self.page3_addBtn_clicked,
-                "on_deleteBtn_clicked" : self.page3_deleteBtn_clicked,                
+                "on_deleteBtn_clicked" : self.page3_deleteBtn_clicked,
                 }
         self.page3tree.signal_autoconnect(dic)
         self.wid.set_size_request(900, 30)
@@ -227,16 +184,53 @@ class MainWindow(gtk.Window):
         wid = page3Widget.wid
         page3Align = gtk.Alignment(0, 0, 1, 0)
         page3Align.add(wid)
-        self.box3.add(page3Align)
-        self.notebook.append_page(self.box3)
+        box3.add(page3Align)
+        self.notebook.append_page(box3)
 
         page4Label = gtk.Label('This is Page 4')
         page5Label = gtk.Label('This is Page 5')
         self.notebook.append_page(page4Label)
         self.notebook.append_page(page5Label)
 
+class MainWindow(gtk.Window):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.init_log()
+        self.set_window_moveable()
+
+        mainBox = gtk.VBox();
+
+        titleBarWid = TitleBarWidget()
+        toolBarWid = ToolBarWidget()
+
+        titleEb = gtk.EventBox()
+        titleEb.add(titleBarWid.titleBarBox)
+        titleEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
+
+        toolEb = gtk.EventBox()
+        toolEb.add(toolBarWid.toolBarBox)
+        toolEb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color("#3684d7"))
+
+        titleBarWid.setBtn.connect('clicked', self.setBtnClicked)
+        titleBarWid.minBtn.connect('clicked',self.minBtnClicked)
+        titleBarWid.closeBtn.connect('clicked', self.closeBtnClicked)
+
+        toolBarWid.homeBtn.connect('clicked', self.homeBtnClicked)
+        toolBarWid.stateBtn.connect('clicked',self.stateBtnClicked)
+        toolBarWid.softmanagerBtn.connect('clicked', self.softmanagerBtnClicked)
+        toolBarWid.auditBtn.connect('clicked', self.auditBtnClicked)
+        toolBarWid.sysinfoBtn.connect('clicked', self.sysinfoBtnClicked)
+
+        barBox = gtk.VBox()
+        barBox.pack_start(titleEb)
+        barBox.pack_start(toolEb)
+        barAlign = gtk.Alignment(0, 0, 1, 0)
+        barAlign.add(barBox)
+
+        self.notebookWid = NotebookWidget()
+
         mainBox.add(barAlign)
-        mainBox.add(self.notebook)
+        mainBox.add(self.notebookWid.notebook)
        
         self.connect("destroy",gtk.main_quit)
         self.add(mainBox)
@@ -255,8 +249,8 @@ class MainWindow(gtk.Window):
         gtk.main_quit()
 
     
-    def init_window(self):
-	self.set_keep_above(True)
+    def set_window_moveable(self):
+        #self.set_keep_above(True)
         self.set_modal(True)
         self.set_decorated(False)
         #self.set_title('MainUI')
@@ -304,24 +298,24 @@ class MainWindow(gtk.Window):
 
     #toolbar slots
     def homeBtnClicked(self, homeBtn):
-        self.notebook.set_current_page(0)
+        self.notebookWid.notebook.set_current_page(0)
         self.mylog.debug("home btn clicked")
 
     def stateBtnClicked(self, stateBtn):
         self.wview2.load_uri('https://developer.gnome.org/pygtk/stable/index.html')
-        self.notebook.set_current_page(1)
+        self.notebookWid.notebook.set_current_page(1)
         self.mylog.info("state btn clicked")
 
     def softmanagerBtnClicked(self, softmanagerBtn):
-        self.notebook.set_current_page(2)
+        self.notebookWid.notebook.set_current_page(2)
         self.mylog.warning("softmanager btn clicked")
 
     def auditBtnClicked(self, auditBtn):
-        self.notebook.set_current_page(3)
+        self.notebookWid.notebook.set_current_page(3)
         self.mylog.error("audit btn clicked")
 
     def sysinfoBtnClicked(self, sysinfoBtn):
-        self.notebook.set_current_page(4)
+        self.notebookWid.notebook.set_current_page(4)
 
     def create_menu(self):
         menu = gtk.Menu()
