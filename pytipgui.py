@@ -63,34 +63,34 @@ class MainWindow(gtk.Window):
         minBtn.set_size_request(32,32)
         closeBtn = gtk.Button()
         closeBtn.set_size_request(32,32)
-        #set button background
-        setBtn.set_relief(gtk.RELIEF_NONE)  #transparency
+        #set button transparency
+        setBtn.set_relief(gtk.RELIEF_NONE)
         minBtn.set_relief(gtk.RELIEF_NONE)
         closeBtn.set_relief(gtk.RELIEF_NONE)
         #set tittlebar image
-        titlepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/logo.png")
+        titlepixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/logo.png")
         titleImage = gtk.Image()
         titleImage.set_from_pixbuf(titlepixbuf)
         titleImageBox = gtk.VBox()
         titleImageBox.pack_start(titleImage)
 
-        headpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_USER_TITLEBAR.gif")
+        headpixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_USER_TITLEBAR.gif")
         headImage = gtk.Image()
         headImage.set_from_pixbuf(headpixbuf)
         headImageBox = gtk.VBox()
         headImageBox.pack_start(headImage)
 
-        setpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_TITLEBAR.gif")
+        setpixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_TITLEBAR.gif")
         setImage = gtk.Image()
         setImage.set_from_pixbuf(setpixbuf)
         setBtn.add(setImage)
 
-        minpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_MIN_TITLEBAR.gif")
+        minpixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_MIN_TITLEBAR.gif")
         minImage = gtk.Image()
         minImage.set_from_pixbuf(minpixbuf)
         minBtn.add(minImage)
 
-        closepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_CLOSED_TITLEBAR.gif")
+        closepixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_CLOSED_TITLEBAR.gif")
         closeImage = gtk.Image()
         closeImage.set_from_pixbuf(closepixbuf)
         closeBtn.add(closeImage)
@@ -106,35 +106,35 @@ class MainWindow(gtk.Window):
         auditBtn.set_size_request(84,84)
         sysinfoBtn = gtk.Button()
         sysinfoBtn.set_size_request(84,84)
-        #set button background
-        homeBtn.set_relief(gtk.RELIEF_NONE)  #transparency
+        #set button transparency
+        homeBtn.set_relief(gtk.RELIEF_NONE)
         stateBtn.set_relief(gtk.RELIEF_NONE)
         softmanagerBtn.set_relief(gtk.RELIEF_NONE)
         auditBtn.set_relief(gtk.RELIEF_NONE)
         sysinfoBtn.set_relief(gtk.RELIEF_NONE)
         #set toolbtn image
-        homepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_HOME_TOOLBAR.png")
+        homepixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_HOME_TOOLBAR.png")
         homeImage = gtk.Image()
-        #homeImage.set_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_HOME_TOOLBAR.png")
+        #homeImage.set_from_file("resource/toolbar/ID_HOME_TOOLBAR.png")
         homeImage.set_from_pixbuf(homepixbuf)
         homeBtn.add(homeImage)
 
-        statepixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_STATE_VIEW_TOOLNAR.png")
+        statepixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_STATE_VIEW_TOOLNAR.png")
         stateImage = gtk.Image()
         stateImage.set_from_pixbuf(statepixbuf)
         stateBtn.add(stateImage)
 
-        softmanagerpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_SOFT_MANAGER_TOOLBAR.png")
+        softmanagerpixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_SOFT_MANAGER_TOOLBAR.png")
         softmanagerImage = gtk.Image()
         softmanagerImage.set_from_pixbuf(softmanagerpixbuf)
         softmanagerBtn.add(softmanagerImage)
 
-        auditpixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_AUDIT_INFO.png")
+        auditpixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_AUDIT_INFO.png")
         auditImage = gtk.Image()
         auditImage.set_from_pixbuf(auditpixbuf)
         auditBtn.add(auditImage)
 
-        sysinfopixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/toolbar/ID_BTN_SYSINFO.png")
+        sysinfopixbuf = gtk.gdk.pixbuf_new_from_file("resource/toolbar/ID_BTN_SYSINFO.png")
         sysinfoImage = gtk.Image()
         sysinfoImage.set_from_pixbuf(sysinfopixbuf)
         sysinfoBtn.add(sysinfoImage)
@@ -339,31 +339,31 @@ class MainWindow(gtk.Window):
         aboutItem.set_size_request(136,35)
 
         #add image
-        registPixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_REGISTER.png")
+        registPixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_REGISTER.png")
         registImage = gtk.Image()
         registImage.set_from_pixbuf(registPixbuf)
         registItem.set_image(registImage)
         registItem.set_always_show_image(True)
         
-        modePixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_toolbar_peizhimianban.png")
+        modePixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_toolbar_peizhimianban.png")
         modeImage = gtk.Image()
         modeImage.set_from_pixbuf(modePixbuf)
         modeItem.set_image(modeImage)
         modeItem.set_always_show_image(True)
 
-        upgradePixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_UPGRADE.png")
+        upgradePixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_UPGRADE.png")
         upgradeImage = gtk.Image()
         upgradeImage.set_from_pixbuf(upgradePixbuf)
         upgradeItem.set_image(upgradeImage)
         upgradeItem.set_always_show_image(True)
 
-        manualPixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_MANUAL.png")
+        manualPixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_MANUAL.png")
         manualImage = gtk.Image()
         manualImage.set_from_pixbuf(manualPixbuf)
         manualItem.set_image(manualImage)
         manualItem.set_always_show_image(True)
 
-        aboutPixbuf = gtk.gdk.pixbuf_new_from_file("/home/ymc/test/pygtkgui/resource/titlebar/ID_SETTING_ABOUT.png")
+        aboutPixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_ABOUT.png")
         aboutImage = gtk.Image()
         aboutImage.set_from_pixbuf(aboutPixbuf)
         aboutItem.set_image(aboutImage)
@@ -392,8 +392,6 @@ class MainWindow(gtk.Window):
         #logging.basicConfig()
         self.mylog = logging.getLogger('log_gui')
         self.mylog.setLevel(logging.INFO)
-        #fmt = '%(asctime)s - %(pathname)s[line: %(lineno)d] - %(levelname)s: %(message)s'
-        #format_str = logging.Formatter(fmt)
         formatter = logging.Formatter("%(asctime)s %(pathname)s[line: %(lineno)d] %(levelname)s: %(message)s")
         handler = logging.handlers.RotatingFileHandler('logs/log_gui.log', maxBytes = 100*1024*1024, backupCount = 3, encoding = 'utf-8')
         handler.setFormatter(formatter)
