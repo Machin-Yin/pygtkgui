@@ -16,7 +16,7 @@ class Page3Widget:
                 "on_deleteBtn_clicked" : self.page3_deleteBtn_clicked,
                 "on_page3win_destroy" : self.destroy}
         self.wTree.signal_autoconnect(dic)
-          
+
     def page3_searchBtn_clicked(self, widget):
         print "page3_searchBtn_clicked"
 
@@ -197,6 +197,7 @@ class MainWindow(gtk.Window):
         super(MainWindow, self).__init__()
         self.init_log()
         self.set_window_moveable()
+        self.create_trayicon()
 
         mainBox = gtk.VBox();
 
@@ -238,12 +239,10 @@ class MainWindow(gtk.Window):
 
     #titlebar slots
     def setBtnClicked(self, setBtn):
-        #settingWid = SettingWidget()
-        #settingWid.show_all()
         self.create_menu()
 
     def minBtnClicked(self, minBtn):
-        self.maximize()
+        self.hide()
 
     def closeBtnClicked(self, closeBtn):
         gtk.main_quit()
@@ -251,6 +250,7 @@ class MainWindow(gtk.Window):
     
     def set_window_moveable(self):
         #self.set_keep_above(True)
+        self.set_icon_from_file("resource/titlebar/tiptray.ico");
         self.set_modal(True)
         self.set_decorated(False)
         #self.set_title('MainUI')
@@ -302,7 +302,7 @@ class MainWindow(gtk.Window):
         self.mylog.debug("home btn clicked")
 
     def stateBtnClicked(self, stateBtn):
-        self.wview2.load_uri('https://developer.gnome.org/pygtk/stable/index.html')
+        self.notebookWid.wview2.load_uri('https://developer.gnome.org/pygtk/stable/index.html')
         self.notebookWid.notebook.set_current_page(1)
         self.mylog.info("state btn clicked")
 
@@ -316,7 +316,9 @@ class MainWindow(gtk.Window):
 
     def sysinfoBtnClicked(self, sysinfoBtn):
         self.notebookWid.notebook.set_current_page(4)
+        self.mylog.critical("sysinfo btn clicked")
 
+    #window topright setting menu
     def create_menu(self):
         menu = gtk.Menu()
         menu.set_size_request(136,223)
@@ -380,6 +382,41 @@ class MainWindow(gtk.Window):
 
         menu.show_all()
         menu.popup(None, None, None, 3, 0)
+
+    #create statusicon
+    def create_trayicon(self):
+        self.trayicon = gtk.status_icon_new_from_file("resource/titlebar/tiptray.ico")
+        self.trayicon.set_tooltip("Httcgui")
+        self.trayicon.connect("activate", self.togglevisibility)
+        self.trayicon.connect("popup-menu", self.popupmenu)
+    #create statusicon menu
+    def popupmenu(self, icon, button, time):
+        menu = gtk.Menu()
+
+        shlabel = "Hide" if self.get_visible() else "Show"
+        showhide = gtk.MenuItem(shlabel)
+
+        quit = gtk.MenuItem("Quit")
+
+        showhide.connect("activate", self.togglevisibility)
+        quit.connect("activate", self.main_quit)
+
+        menu.append(showhide)
+        menu.append(quit)
+
+        menu.show_all()
+        menu.popup(None, None, gtk.status_icon_position_menu, button, time, self.trayicon)
+
+    def togglevisibility(self, event):
+        if self.get_visible():
+            self.hide()
+            self.trayicon.set_blinking(True)
+        else:
+            self.show()
+            self.trayicon.set_blinking(False)
+
+    def main_quit(self, event):
+        gtk.main_quit()
 
     def init_log(self):
         ''' NOTSET(0)、DEBUG(10)、INFO(20)、WARNING(30)、ERROR(40)、CRITICAL(50) '''
