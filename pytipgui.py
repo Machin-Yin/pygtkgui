@@ -4,6 +4,7 @@ import gtk.glade
 import webkit
 import logging
 import logging.handlers
+import os
 
 import widgetclass
 
@@ -62,14 +63,16 @@ class MainWindow(gtk.Window):
     def closeBtnClicked(self, closeBtn):
         gtk.main_quit()
 
-    
+
     def set_window_moveable(self):
+        resource_dir = os.path.join(widgetclass.guiDir(), "resource")
+
         #self.set_keep_above(True)
-        self.set_icon_from_file("resource/titlebar/tiptray.ico");
+        self.set_icon_from_file(resource_dir + "/titlebar/tiptray.ico");
         self.set_modal(True)
         self.set_decorated(False)
         #self.set_title('MainUI')
-        self.set_resizable(False)
+        self.set_resizable(True)
         self.set_default_size(900, 600)
 
         self.set_events(gtk.gdk.BUTTON_RELEASE_MASK | gtk.gdk.BUTTON_PRESS_MASK |
@@ -77,7 +80,7 @@ class MainWindow(gtk.Window):
         self.connect('button-release-event', self.on_release) # 鼠标释放
         self.connect('button-press-event', self.on_press) # 鼠标按下
         self.connect('motion-notify-event', self.on_move) #鼠标移动
- 
+
         self.is_press = False
         # 鼠标按下坐标
         self.start_x = 0
@@ -93,10 +96,10 @@ class MainWindow(gtk.Window):
         self.start_x = event.x
         self.start_y = event.y
         self.is_press = True
- 
+
     def on_release(self, widget, event):
         self.is_press = False
- 
+
     def on_move(self, widget, event):
         if self.is_press:
             # 计算鼠标移动的距离（相对按下时的坐标）
@@ -107,9 +110,6 @@ class MainWindow(gtk.Window):
             self.coordinate_y += y
             # 移动窗口
             self.move(int(self.coordinate_x), int(self.coordinate_y))
-
-
-
 
     #toolbar slots
     def homeBtnClicked(self, homeBtn):
@@ -149,32 +149,33 @@ class MainWindow(gtk.Window):
         aboutItem = gtk.ImageMenuItem("     关于我们")
         aboutItem.set_size_request(136,35)
 
+        resource_dir = os.path.join(widgetclass.guiDir(), "resource")
         #add image
-        registPixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_REGISTER.png")
+        registPixbuf = gtk.gdk.pixbuf_new_from_file(resource_dir + "/titlebar/ID_SETTING_REGISTER.png")
         registImage = gtk.Image()
         registImage.set_from_pixbuf(registPixbuf)
         registItem.set_image(registImage)
         registItem.set_always_show_image(True)
         
-        modePixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_toolbar_peizhimianban.png")
+        modePixbuf = gtk.gdk.pixbuf_new_from_file(resource_dir + "/titlebar/ID_toolbar_peizhimianban.png")
         modeImage = gtk.Image()
         modeImage.set_from_pixbuf(modePixbuf)
         modeItem.set_image(modeImage)
         modeItem.set_always_show_image(True)
 
-        upgradePixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_UPGRADE.png")
+        upgradePixbuf = gtk.gdk.pixbuf_new_from_file(resource_dir + "/titlebar/ID_SETTING_UPGRADE.png")
         upgradeImage = gtk.Image()
         upgradeImage.set_from_pixbuf(upgradePixbuf)
         upgradeItem.set_image(upgradeImage)
         upgradeItem.set_always_show_image(True)
 
-        manualPixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_MANUAL.png")
+        manualPixbuf = gtk.gdk.pixbuf_new_from_file(resource_dir + "/titlebar/ID_SETTING_MANUAL.png")
         manualImage = gtk.Image()
         manualImage.set_from_pixbuf(manualPixbuf)
         manualItem.set_image(manualImage)
         manualItem.set_always_show_image(True)
 
-        aboutPixbuf = gtk.gdk.pixbuf_new_from_file("resource/titlebar/ID_SETTING_ABOUT.png")
+        aboutPixbuf = gtk.gdk.pixbuf_new_from_file(resource_dir + "/titlebar/ID_SETTING_ABOUT.png")
         aboutImage = gtk.Image()
         aboutImage.set_from_pixbuf(aboutPixbuf)
         aboutItem.set_image(aboutImage)
@@ -200,7 +201,8 @@ class MainWindow(gtk.Window):
 
     #create statusicon
     def create_trayicon(self):
-        self.trayicon = gtk.status_icon_new_from_file("resource/titlebar/tiptray.ico")
+        resource_dir = os.path.join(widgetclass.guiDir(), "resource")
+        self.trayicon = gtk.status_icon_new_from_file(resource_dir + "/titlebar/tiptray.ico")
         self.trayicon.set_tooltip("Httcgui")
         self.trayicon.connect("activate", self.togglevisibility)
         self.trayicon.connect("popup-menu", self.popupmenu)
@@ -236,14 +238,13 @@ class MainWindow(gtk.Window):
     def init_log(self):
         ''' NOTSET(0)、DEBUG(10)、INFO(20)、WARNING(30)、ERROR(40)、CRITICAL(50) '''
         #logging.basicConfig()
+        logs_dir = os.path.join(widgetclass.guiDir(), "logs")
         self.mylog = logging.getLogger('log_gui')
         self.mylog.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s %(pathname)s[line: %(lineno)d] %(levelname)s: %(message)s")
-        handler = logging.handlers.RotatingFileHandler('logs/log_gui.log', maxBytes = 100*1024*1024, backupCount = 3, encoding = 'utf-8')
+        handler = logging.handlers.RotatingFileHandler(logs_dir + '/log_gui.log', maxBytes = 100*1024*1024, backupCount = 3, encoding = 'utf-8')
         handler.setFormatter(formatter)
         self.mylog.addHandler(handler)
-
-
 
 if __name__ == "__main__":
     MainWindow()
